@@ -1,0 +1,12 @@
+[
+  {
+    "from_currency": "brl",
+    "to_currency": "USD",
+    "result": 160.74
+  },
+  {
+    "from_currency": "usd",
+    "to_currency": "ARS",
+    "result": 1071000.0
+  }
+]

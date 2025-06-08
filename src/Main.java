@@ -1,6 +1,9 @@
 import br.com.currencyconverter.controllers.CurrencyController;
 import br.com.currencyconverter.entities.CurrencyRate;
+import br.com.currencyconverter.services.ConverterService;
+import br.com.currencyconverter.utils.Writer;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -11,28 +14,34 @@ public class Main {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
-        List<CurrencyRate> currenciesToConvert;
+        List<CurrencyRate> currenciesList;
         try{
             System.out.println("Enter input currency: ");
             String inCurrency = sc.next();
-
             String currenciesData = CurrencyController.getCurrency(inCurrency);
-            currenciesToConvert = CurrencyController.getCurrenciesRateList(currenciesData);
+            currenciesList = CurrencyController.getCurrenciesRateList(currenciesData);
 
-            CurrencyController.printCurrencies(currenciesToConvert);
+            CurrencyController.printCurrencies(currenciesList);
+
             System.out.println("Select currency's index to convert: ");
-            int outCurrencyIndex = sc.nextInt();
-            if(outCurrencyIndex > currenciesToConvert.size()){
-                throw new RuntimeException("Invalid currency index: value exceeds the available currencies list size.");
+            int outIndex = sc.nextInt();
+            if(outIndex > currenciesList.size()){
+                throw new RuntimeException("Error: value exceeds the available currencies list size.");
             }
+            System.out.println("Enter a "+inCurrency+" value to convert: ");
+            double value = sc.nextDouble();
 
-            CurrencyRate outputCurrency = currenciesToConvert.get(outCurrencyIndex);
+            CurrencyRate outCurrency = currenciesList.get(outIndex);
+            double conversion = ConverterService.conversion(outCurrency, value);
 
+            System.out.println("BRL -> "+currenciesList.get(0));
+            System.out.println(outCurrency.getCode()+" -> "+outCurrency.getRate());
+            System.out.println("Result -> "+conversion);
 
-        }catch (RuntimeException e){
+            Writer.writeJsonFile(inCurrency, outCurrency, conversion);
+
+        }catch (RuntimeException | IllegalAccessException | IOException e){
             System.out.println(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
 
     }

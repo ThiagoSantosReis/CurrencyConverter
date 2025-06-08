@@ -14,7 +14,7 @@ public class CurrencyController {
     public static String getCurrency(String currencyCode) throws IllegalAccessException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         if(currencyCode.length() != 3){
-            throw new IllegalAccessException("Currency code must have only 3 characters.");
+            throw new IllegalAccessException("Error: Currency code must have only 3 characters.");
         }
         URI currencyAdress = URI
                 .create("https://v6.exchangerate-api.com/v6/65ac7ed9c98e681f4892ac7f/latest/"+currencyCode);
@@ -53,7 +53,7 @@ public class CurrencyController {
             if(i == 0){
                 continue;
             }
-            System.out.println(i+" - "+currencies.get(i));
+            System.out.println(i+" - "+currencies.get(i).getCode());
         }
     }
 
