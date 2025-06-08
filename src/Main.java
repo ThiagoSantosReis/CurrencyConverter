@@ -21,6 +21,13 @@ public class Main {
 
             CurrencyController.printCurrencies(currenciesToConvert);
             System.out.println("Select currency's index to convert: ");
+            int outCurrencyIndex = sc.nextInt();
+            if(outCurrencyIndex > currenciesToConvert.size()){
+                throw new RuntimeException("Invalid currency index: value exceeds the available currencies list size.");
+            }
+
+            CurrencyRate outputCurrency = currenciesToConvert.get(outCurrencyIndex);
+
 
         }catch (RuntimeException e){
             System.out.println(e.getMessage());
