@@ -19,6 +19,6 @@ public class CurrencyRate {
 
     @Override
     public String toString() {
-        return code+": "+rate;
+        return code+ ": "+rate;
     }
 }
